@@ -1,23 +1,29 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef,  OnDestroy,  ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
   templateUrl: './zoom-range.component.html',
   styleUrls: ['./zoom-range.component.css']
 })
-export class ZoomRangeComponent implements AfterViewInit {
+export class ZoomRangeComponent implements AfterViewInit,OnDestroy {
+  ngOnDestroy(): void {
+    this.map?.remove();
+  }
+
 
   @ViewChild('map') mapDiv?: ElementRef;
 
   public zoom: number = 10;
   public map?: L.Map;
+  public currentLatLng:L.LatLng=new L.LatLng(41.3181411, 2.0154439);
+
 
   options: L.MapOptions = {
     attributionControl: false,
     doubleClickZoom: true,
-    center: [41.3181411, 2.0154439],
+    center: this.currentLatLng,
     zoomControl: false,
-    minZoom: 3,
+    minZoom: 2,
     maxZoom: 18,
     zoom: this.zoom,
     fadeAnimation: true,
@@ -49,6 +55,10 @@ export class ZoomRangeComponent implements AfterViewInit {
       this.map!.setZoom(18);
     })
 
+    this.map.on('move',()=>{
+      this.currentLatLng=this.map!.getCenter();
+
+    })
   }
 
 
@@ -58,10 +68,10 @@ export class ZoomRangeComponent implements AfterViewInit {
   zoomOut() {
 
     this.map?.zoomOut();
+  this.map?.getCenter
   }
 
   zoomChanged(value: string): void {
-    console.log(value)
     this.zoom = Number(value);
     this.map?.setZoom(this.zoom);
   }

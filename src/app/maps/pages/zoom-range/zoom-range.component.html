@@ -7,7 +7,7 @@
     <input
     type="range"
      class="form-range px-2"
-      min="3"
+      min="2"
       max="18"
       [value]="zoom"
       (change)="zoomChanged(zoomInput.value)"
@@ -17,6 +17,6 @@
   <span class="form-label">
     Zoom:{{zoom }}
     <br>
-    Lng,Lat {{'ALGO'}}
+    Lat:{{currentLatLng.lat}} : Long:{{currentLatLng.lng }}
   </span>
 </div>
