@@ -80,7 +80,10 @@ export class MarkersPageComponent implements AfterViewInit, OnDestroy {
   createMarker() {
 
     if (!this.map) return;
-    let texto=prompt('Indica el nombre del nuevo marcador')??"";
+    let texto=prompt('Indica el nombre del nuevo marcador')??"marker ";
+    if(texto=="") {
+      texto='marker'
+    }
     let color = '#xxxxxx'.replace(/x/g, y => (Math.random() * 16 | 0).toString(16));
 
     let latLong = this.map?.getCenter();
